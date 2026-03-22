@@ -1,0 +1,577 @@
+/* resources/css/app.css - styled header, sidebar, content and footer */
+
+/* Variables */
+:root{
+  --header-h: 64px;
+  --footer-h: 56px;
+  --sidebar-w: 240px;
+  --accent: #b90909;
+  --accent-sky: #0077b6;
+  --border: #111;
+  --muted: #777;
+  --bg: #ffffff;
+  --surface: #fbfbfb;
+  --gap: 16px;
+}
+
+/* Base reset */
+*{box-sizing:border-box}
+html,body,#app{
+  height:100%;
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+
+/* App layout */
+.app-root{
+  /* Use viewport height so footer sits at bottom when content is short.
+     Use 100dvh first (modern browsers) with 100vh fallback for broader support. */
+  min-height:100dvh;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:var(--surface);
+}
+
+/* Header */
+.site-header{
+  display:flex;align-items:center;height:var(--header-h);padding:0 var(--gap);
+  background:var(--bg);border-bottom:6px solid var(--border);
+  gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{
+  width:100px;height:44px;background:var(--border);color:#ffffff;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;
+}
+.brand-texts{display:flex;flex-direction:column;line-height:1}
+.brand-name{font-weight:800;font-size:18px}
+.header-text{color:var(--accent);font-weight:700;font-size:13px}
+
+/* header spacer pushes actions to right */
+.header-spacer{flex:1}
+
+/* header actions */
+.header-actions{display:flex;gap:12px}
+.header-actions .action{color:var(--muted);text-decoration:none;padding:6px 8px;border-radius:6px}
+.header-actions .action:hover{background:#190650;color:#1bc5c5}
+
+/* Hamburger - hidden desktop */
+.hamburger{display:none;background:transparent;border:0;font-size:20px;cursor:pointer}
+
+/* Default: show desktop header, hide mobile header */
+.desktop-header{display:flex}
+.mobile-header{display:none}
+
+/* Body area */
+.site-body{display:flex;flex:1;min-height:0}
+
+/* Sidebar */
+.sidebar{
+  width:var(--sidebar-w);background:var(--bg);border-right:6px solid var(--border);
+  padding:18px 12px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.sidebar-title{display:block;margin-bottom:6px;font-weight:800;color:#222}
+.sidebar-nav ul{list-style:none;padding:0;margin:0}
+.sidebar-nav li{margin:8px 0}
+.sidebar-nav a{display:block;padding:8px 12px;border-radius:6px;color:#111;text-decoration:none;font-weight:700}
+.sidebar-nav a:hover{background:#f2f2f2}
+.sidebar-nav .active > a,
+.sidebar-nav a.active,
+.sidebar-nav li.active > a{
+  background:var(--accent);color:#fff;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
+}
+
+/* main content */
+.main-content{
+  flex:1;                       /* main area grows to fill between header and footer */
+  padding:20px 28px;
+  overflow:auto;                /* allow scrolling when content is taller than available space */
+  min-height:0;                 /* ensure flex children can shrink properly */
+}
+
+/* Page container and cards */
+.page-container{max-width:1100px;margin:0 auto}
+.card{background:var(--bg);border-radius:10px;padding:18px;border:1px solid #eee;margin-bottom:16px}
+.cards-row{display:flex;gap:12px;margin-top:12px}
+.mini-card{flex:1;background:#fff;padding:12px;border-radius:8px;border:1px solid #eee}
+.gallery{display:flex;gap:10px}
+.thumb{flex:1;height:100px;background:#efefef;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#777}
+
+/* forms / buttons */
+.example-form label{display:block;margin-bottom:10px}
+.example-form input,.example-form textarea{width:100%;padding:8px;border-radius:6px;border:1px solid #ddd}
+.btn{display:inline-block;padding:8px 12px;border-radius:6px;border:0;background:#f0f0f0;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff}
+
+/* footer - base (kept minimal here; final styling is later to override duplicates) */
+.site-footer{
+  height:var(--footer-h);
+  border-top:6px solid var(--border);
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+}
+.footer-inner{display:flex;gap:20px;align-items:center}
+.footer-links a{color:var(--muted);text-decoration:none}
+.mobile-footer {
+  background: linear-gradient(90deg, #121179, #1f7eeb, #1c1a91);
+  border-bottom: none;
+}
+
+/* responsive adjustments */
+@media (max-width: 900px){
+  .pages-container{padding:16px}
+}
+@media (max-width: 768px){
+  .header-text{display:none}
+  .hamburger{display:inline-block}
+
+  /* Hide desktop header on small screens */
+  .desktop-header{display:none}
+
+  /* Show mobile header on small screens */
+  .mobile-header{
+    display:flex;align-items:center;justify-content:space-between;height:var(--header-h);
+    padding:0 var(--gap);background:var(--bg);border-bottom:6px solid var(--border);
+  }
+
+  .sidebar{
+    position:fixed;top:var(--header-h);left:-320px;height:calc(100% - var(--header-h));
+    width:260px;z-index:1200;padding:16px;border-right:0;border-left:6px solid var(--border);
+    box-shadow:2px 0 20px rgba(0,0,0,0.12);transition:left .22s ease;
+  }
+  .sidebar.open{left:0}
+
+  /* overlay for when sidebar is open */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1150;display:none}
+  .overlay.show{display:block}
+
+  /* layout: main content full width when sidebar hidden */
+  .main-content{padding:18px}
+}
+/* --- Sky-blue design enhancements (added at the end, nothing removed) --- */
+
+/* Header: sky-blue gradient background */
+.site-header {
+  background: linear-gradient(90deg, #05c082, #2e98f0, #05c082);
+  border-bottom: none; /* override black line */
+}
+
+/* Mobile header: sky-blue gradient background */
+.mobile-header {
+  background: linear-gradient(90deg, #121179, #1f7eeb, #1c1a91);
+  border-bottom: none;
+}
+
+/* Sidebar: vertical sky-blue gradient */
+.sidebar {
+  background: linear-gradient(180deg, #4d4a68, #06838b, #706c91);
+  border-right: none; /* override black line */
+  border-left: none;
+}
+
+/* Main content: sky-blue background (kept visual, but ensure combined with earlier main-content rules) */
+.main-content {
+  /* We already set flex/overflow earlier; keep visual background and rounding here */
+  background: linear-gradient(180deg, #000000);
+  border-radius: 0px;
+}
+
+/* Cards: sky-blue borders and shadows */
+.card, .mini-card {
+  border: 1px solid #87ceeb;
+  box-shadow: 0 2px 6px rgba(41, 97, 9, 0.719);
+}
+.card h1, .mini-card h2 {
+  color: #0077b6; /* deep sky-blue accent */
+}
+
+/* Footer: sky-blue gradient bar - FIXED LAYOUT (this block replaces the earlier problematic one)
+   Important: do NOT give the footer flex:1 or overflow:fixed. Keep a fixed height. */
+.site-footer {
+  height: var(--footer-h);
+  padding: auto;
+  background: linear-gradient(90deg, #05c082, #2e98f0, #05c082);
+  border-top: none; /* override black line */
+  display:auto;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  /* keep footer out of the page flow if you want it pinned; currently it's not fixed, it sits after main-content */
+}
+
+/* Footer link colors */
+.footer-links a {
+  color: #fd0000;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* -----------------------------
+   Registration / Form styles
+   Maps the Bootstrap-like classes used in Register.blade.php
+   (label, .form-control, .invalid-feedback, .mb-3, .content-center)
+   ----------------------------- */
+
+/* Generic container used by many Laravel templates */
+.container{
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+/* Small spacing utility used in the blade: mb-3 */
+.mb-3{margin-bottom:1rem}
+
+/* Card body (used inside your .card) */
+.card-body{padding:auto}
+
+/* Form labels */
+.form-label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:700;
+  color:#f1f1f1; /* make label visible on darker card backgrounds */
+  color: rgba(255,255,255,0.92);
+  font-size:0.95rem;
+}
+
+/* Inputs that map to Bootstrap's .form-control */
+.form-control{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.08);
+  background:#fff;
+  color:#111;
+  font-size:0.95rem;
+  transition:box-shadow .14s ease, border-color .14s ease;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  box-shadow:none;
+}
+
+/* Focus state: sky-blue accent */
+.form-control:focus{
+  outline:none;
+  border-color:var(--accent-sky);
+  box-shadow: 0 6px 18px rgba(0,119,182,0.08), 0 0 0 4px rgba(0,119,182,0.08);
+}
+
+/* Invalid state styling (used with @error('field') in blade) */
+.form-control.is-invalid,
+.form-control.invalid {
+  border-color:#dc3545;
+  background:#fff5f5;
+  box-shadow:none;
+}
+
+/* Invalid feedback */
+.invalid-feedback{
+  display:block;
+  margin-top:6px;
+  font-size:0.875rem;
+  color:#dc3545;
+}
+
+/* Button center helper class used on the submit button */
+.content-center{
+  display:block;
+  margin:14px auto 0;
+  text-align:center;
+}
+
+/* Map the .btn.btn-primary used in blade to your color system and sky-blue style */
+.btn.btn-primary,
+.btn-primary{
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:8px;
+  border:0;
+  color:#fff;
+  background: linear-gradient(90deg, var(--accent-sky), #0ca3d6);
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 6px 18px rgba(7,114,189,0.12);
+  transition:transform .08s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn.btn-primary:hover,
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow: 0 10px 30px rgba(7,114,189,0.14);
+  opacity:0.98;
+}
+
+/* Accessibility: focus ring on buttons */
+.btn:focus{
+  outline:none;
+  box-shadow: 0 0 0 4px rgba(7,114,189,0.12);
+}
+
+/* Make sure the submit button stretches nicely on small screens */
+@media (max-width:480px){
+  .btn.btn-primary,
+  .btn-primary{
+    width:100%;
+    padding:12px 14px;
+  }
+  .content-center{margin:10px 0 0}
+}
+
+/* Small helper: visually hide password input text toggle if added later */
+.input-group{display:flex;gap:8px;align-items:center}
+
+/* Improve appearance of the "mini-card" that wraps the form in your blade */
+.mini-card{
+  background:linear-gradient(180deg,#ffffff, #f7fbff);
+  border:1px solid rgba(135,206,235,0.35);
+  box-shadow: 10px 4px 12px rgba(135,206,235,0.12);
+  padding:18px;
+}
+
+/* Ensure form fields inside .mini-card have some contrast on darker main-content backgrounds */
+.main-content .card,
+.main-content .mini-card{
+  background: linear-gradient(180deg,#8c9b06, #0c59a6, #8c9b06);
+  color:#fff;
+}
+.main-content .form-label{ color: rgb(0, 0, 0); }
+.main-content .form-control{ background:#fff; color:#111; }
+
+/* End of registration/form styles */
+
+/* Define the slide-in animation */
+@keyframes flipIn { from { opacity: 0; transform: perspective(600px) rotateX(90deg); } to { opacity: 1; transform: perspective(600px) rotateX(0deg); }
+}
+ .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgb(248, 248, 248);
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+.attendance-section h1 {
+  color: rgb(4, 29, 100);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.attendance-section table {
+  width: 200%;
+  max-width: 700px;
+  margin: 0 auto; 
+  border-collapse: collapse;
+  background: #13ae73;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 119, 182, 0.1);
+  
+  /* Slide-in animation */
+  animation: flipIn 0.8s ease-out forwards; 
+}
+
+.attendance-section thead {
+  background: #0077b6;
+}
+
+.attendance-section th {
+  color: #ffffff;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border: none;
+}
+
+.attendance-section td {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333333;
+  font-weight: 600;
+  text-align: left;
+}
+
+.attendance-section tbody tr:hover {
+  background: #67a903;
+  transition: background 0.3s ease;
+}
+
+.attendance-section tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* -----------------------------
+   Settings Page Enhancements
+------------------------------- */
+
+/* Page container for settings */
+.page-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 18px;
+}
+
+/* Section headers */
+.page-container h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0c59a6; /* deep sky-blue */
+    margin-bottom: 1rem;
+}
+
+/* Settings card */
+.settings-card {
+    background: linear-gradient(180deg, #ffffff, #e0f7ff);
+    border: 1px solid rgba(135,206,235,0.5);
+    border-left-width: 6px;
+    border-left-color: #0ca3d6; /* main sky-blue */
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0, 119, 182, 0.15);
+    transition: all 0.25s ease;
+}
+.settings-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 119, 182, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Card title */
+.settings-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0077b6; /* deep sky-blue */
+}
+
+/* Card description */
+.settings-card p {
+    font-size: 0.875rem;
+    margin-top: 6px;
+    color: #444;
+}
+
+/* Toggle switch (modern sliding switch) */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    margin-top: 12px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb;
+    transition: 0.4s;
+    border-radius: 9999px;
+}
+.toggle-switch .slider::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+.toggle-switch input:checked + .slider {
+    background-color: #0ca3d6; /* sky-blue */
+}
+.toggle-switch input:checked + .slider::before {
+    transform: translateX(20px);
+}
+
+/* Buttons inside settings cards */
+.settings-card a.btn,
+.settings-card button.btn {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(90deg, #05c082, #2e98f0);
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+.settings-card a.btn:hover,
+.settings-card button.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0,119,182,0.2);
+}
+
+/* Grid layout for settings cards */
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+@media (min-width: 768px) {
+    .settings-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Section separators */
+.page-container hr {
+    border: none;
+    border-top: 1px solid rgba(135,206,235,0.35);
+    margin: 40px 0;
+}
+
+/* Form elements inside settings (dropdowns, inputs) */
+.settings-card select,
+.settings-card input[type="text"],
+.settings-card input[type="email"],
+.settings-card input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #87ceeb;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    transition: box-shadow 0.14s ease, border-color 0.14s ease;
+}
+.settings-card select:focus,
+.settings-card input:focus {
+    outline: none;
+    border-color: #0ca3d6;
+    box-shadow: 0 6px 18px rgba(0,119,182,0.08);
+}
+
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+    .settings-card {
+        background: linear-gradient(180deg, #1e293b, #0f172a);
+        color: #e5e7eb;
+        border-left-color: #0ca3d6;
+        box-shadow: 0 4px 12px rgba(0,119,182,0.25);
+    }
+    .settings-card p {
+        color: #cbd5e1;
+    }
+    .settings-card a.btn,
+    .settings-card button.btn {
+        color: #fff;
+        background: linear-gradient(90deg, #05c082, #2e98f0);
+    }
+}
